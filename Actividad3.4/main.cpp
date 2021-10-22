@@ -125,7 +125,7 @@ void sort(vector< vector< vector <string> > > &bitacoraDiaria, string fecha){
   }
 }
 
-//ordena la bitacora I aplicando el bubblesort
+//ordena la bitacora IPs aplicando el bubblesort
 void sort(vector< vector <string> >  &bitacoraIps){
   for(int i = 0; i < bitacoraIps.size() - 1; i++ ){
     for (int j = 0; j < bitacoraIps.size() -i -1;j++){
@@ -300,7 +300,7 @@ BinarySearchTree<string> arbol(vector< vector <string> >  bitacoraIps){
     return bitacoraArbol;
 }
 
-//imprime y elimina los 5 elementos top de la bitacora arbol
+//imprime los 5 elementos top de la Bitacora Arbol
 void top5(BinarySearchTree<string> bitacoraArbol){
     vector< vector <string> >  top5;
     vector<string> valor;
