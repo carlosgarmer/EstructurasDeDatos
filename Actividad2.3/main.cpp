@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// returns month number with letter month format
+// Retorna el numero del mes segun el nombre
 string mesAnum(string mes){
     if (mes == "Jan"){
         return "01";
@@ -35,12 +35,14 @@ string mesAnum(string mes){
     return "ENTRADA INVALIDA";
 }
 
+//Imprime los elementos de la bitacora acomodada
 void imprimir(vector< vector<string> > bitacoraAcomodada ) {
     for( int i = 0 ; i < bitacoraAcomodada.size() -1 ; i++){
         cout << bitacoraAcomodada[i][0] << " " << bitacoraAcomodada[i][1] << " " << bitacoraAcomodada[i][2] << ":" << bitacoraAcomodada[i][3] << ":" << bitacoraAcomodada[i][4] << " " << bitacoraAcomodada[i][5] << " " << bitacoraAcomodada[i][6] <<endl;
     }
 }
 
+//Imprime los elementos de la bitacora diaria
 void imprimir(vector< vector< vector <string> > > bitacoraDiaria){
     for(int i = 0; i < bitacoraDiaria.size(); i++){
         if (bitacoraDiaria[i].size() > 1){
@@ -52,31 +54,33 @@ void imprimir(vector< vector< vector <string> > > bitacoraDiaria){
     }
 
 }
+
+//separa cada elemento de la bitacora para comodarlos en categorias
 void separar(vector<string> &bitacora,vector< vector<string> > &bitacoraAcomodada ) {
   string space_delimiter = " ";
   vector<string> valores;
   size_t pos = 0;
   for(int j = 0;j<bitacora.size();j++){
     
-    for (int i = 0; i < 2;i++){
+    for (int i = 0; i < 2;i++){ ///separa el mes y dia
         pos = bitacora[j].find(space_delimiter);
         valores.push_back(bitacora[j].substr(0, pos));
         bitacora[j].erase(0, pos + space_delimiter.length());
-    }
+    } 
     space_delimiter = ":";
-    for (int i = 2; i < 4;i++){
+    for (int i = 2; i < 4;i++){ ///separa horas, minutos y segundos
         pos = bitacora[j].find(space_delimiter);
         valores.push_back(bitacora[j].substr(0, pos));
         bitacora[j].erase(0, pos + space_delimiter.length());
     }
     space_delimiter = " ";
-    for (int i = 4; i < 6;i++){
+    for (int i = 4; i < 6;i++){ ///separa la ip y el mensaje
         pos = bitacora[j].find(space_delimiter);
         valores.push_back(bitacora[j].substr(0, pos));
         bitacora[j].erase(0, pos + space_delimiter.length());
     }
     valores.push_back(bitacora[j]);
-    if (stoi(valores[1]) < 10){
+    if (stoi(valores[1]) < 10){ ///convierte fecha, hora, minuto y segundo en un valor entero completo
         valores[1] = "0" + valores[1];
     }
     valores.push_back(mesAnum(valores[0]) + valores[1] + valores[2] + valores[3] + valores[4]);
@@ -86,7 +90,7 @@ void separar(vector<string> &bitacora,vector< vector<string> > &bitacoraAcomodad
   }
 }
 
-// reads file and stores in vector
+// Lee el archivo y lo guarda en un vector
 void leerArchivo(string nombreArchivo,vector<string> &bitacora){
   ifstream archivo(nombreArchivo.c_str());
   string linea;
@@ -96,6 +100,7 @@ void leerArchivo(string nombreArchivo,vector<string> &bitacora){
     }
 }
 
+//aplica el metodo de ordenamiento bubblesort
 void bubbleSort(vector< vector<string> > &bitacoraAcomodada){
   for(int i = 0; i < bitacoraAcomodada.size() - 1; i++ ){
     for (int j = 0; j < bitacoraAcomodada.size() -i -1;j++){
@@ -106,6 +111,7 @@ void bubbleSort(vector< vector<string> > &bitacoraAcomodada){
   }
 }
 
+//ordena la bitacora diaria aplicando el bubblesort
 void sort(vector< vector< vector <string> > > &bitacoraDiaria, string fecha){
   for(int i = 0; i < bitacoraDiaria[stoi(fecha)].size() - 1; i++ ){
     for (int j = 0; j < bitacoraDiaria[stoi(fecha)].size() -i -1;j++){
@@ -116,15 +122,15 @@ void sort(vector< vector< vector <string> > > &bitacoraDiaria, string fecha){
   }
 }
 
-
+//Metodo que se encargara de devolvernos los valores de la bitacora acomodada segun un rango de fechas
 void filtro(vector< vector<string> > &bitacoraAcomodada){
 
   string dia, mes, hora, minuto, segundo;
   string diaF, mesF, horaF, minutoF, segundoF;
   
   cout<<"Siempre usar un 0 al inicio siempre que sea un solo digito Ejemplo: 05 \n\n";
-
-  cout<<"DESDE que fecha quiere visualzar\n";
+  //El usuario ingresa la fecha de inicio de nuestro filtro
+  cout<<"DESDE que fecha quiere visualizar\n";
   cout<<"Ingrese el mes: ";
   cin>>mes;
   cout<<"Ingrese el dia: ";
@@ -136,6 +142,7 @@ void filtro(vector< vector<string> > &bitacoraAcomodada){
   cout<<"Ingrese el segundo: ";
   cin>>segundo;
   cout<<endl;
+  //despues ingresa la fecha de fin de nuestro filtro
   cout<<"HASTA que fecha quiere visualzar\n";
   cout<<"\nIngrese el mes: ";
   cin>>mesF;
@@ -150,30 +157,34 @@ void filtro(vector< vector<string> > &bitacoraAcomodada){
   
   string inicio = mes + dia + hora + minuto + segundo;
   string fin = mesF + diaF + horaF + minutoF + segundoF;
-
+  //se encarga de buscar las fechas que estan entre la fecha de inicio y de fin  de nuestro filtro
   cout<< "INICIO Registros del " << mes << "/" << dia << " " << hora <<":" << minuto << ":" << segundo << " al " << mesF << "/" << diaF << " " << horaF <<":" << minutoF << ":" << segundoF << endl;
   for (int i = 0; i < bitacoraAcomodada.size(); i ++){
       if (stoi(bitacoraAcomodada[i][7]) > stoi(inicio) && stoi(bitacoraAcomodada[i][7]) < stoi(fin)){
           cout << bitacoraAcomodada[i][0] << " " << bitacoraAcomodada[i][1] << " " << bitacoraAcomodada[i][2] << ":" << bitacoraAcomodada[i][3] << ":" << bitacoraAcomodada[i][4] << " " << bitacoraAcomodada[i][5] << " " << bitacoraAcomodada[i][6] <<endl;
       }
   }
-    cout<< "FIN Registros del " << mes << "/" << dia << " " << hora <<":" << minuto << ":" << segundo << " al " << mesF << "/" << diaF << " " << horaF <<":" << minutoF << ":" << segundoF << endl;
+  //imprime las fechas encontradas
+  cout<< "FIN Registros del " << mes << "/" << dia << " " << hora <<":" << minuto << ":" << segundo << " al " << mesF << "/" << diaF << " " << horaF <<":" << minutoF << ":" << segundoF << endl;
 
 }
 
+
+//Metodo que se encargara de devolvernos los valores de la bitacora diaria segun un rango de fechas
 void filtro(vector< vector< vector <string> > > &bitacoraDiaria){
 
   string dia, mes;
   string diaF, mesF;
   
   cout<<"Siempre usar un 0 al inicio siempre que sea un solo digito Ejemplo: 05 \n\n";
-
+ //El usuario ingresa la fecha de inicio de nuestro filtro
   cout<<"DESDE que fecha quiere visualzar\n";
   cout<<"Ingrese el mes: ";
   cin>>mes;
   cout<<"Ingrese el dia: ";
   cin>>dia;
   cout<<endl;
+  //despues ingresa la fecha de fin de nuestro filtro
   cout<<"HASTA que fecha quiere visualzar\n";
   cout<<"\nIngrese el mes: ";
   cin>>mesF;
@@ -182,7 +193,7 @@ void filtro(vector< vector< vector <string> > > &bitacoraDiaria){
   
   string inicio = mes + dia;
   string fin = mesF + diaF;
-
+ //se encarga de buscar las fechas que estan entre la fecha de inicio y de fin  de nuestro filtro
   cout<< "INICIO Registros del " << mes << "/" << dia << " al " << mesF << "/" << diaF << endl;
   for(int i = stoi(inicio); i < stoi(fin) +1; i++){
         if (bitacoraDiaria[i].size() > 1 ){
@@ -193,21 +204,24 @@ void filtro(vector< vector< vector <string> > > &bitacoraDiaria){
             }
         }
     }
+    //imprime las fechas encontradas
   cout<< "FIN Registros del " << mes << "/" << dia << " al " << mesF << "/" << diaF << endl;
 
 }
 
+//Guardara los valores de bitacora acomodada en un archivo
 void archivo(vector< vector<string> > &bitacoraAcomodada){
         ofstream file;
-        file.open("bitacoraOrdenada.txt");
+        file.open("bitacoraOrdenada.txt"); //abre el archivo
         
         for (int i = 0; i < bitacoraAcomodada.size(); i ++){
           file << bitacoraAcomodada[i][0] << " " << bitacoraAcomodada[i][1] << " " << bitacoraAcomodada[i][2] << ":" << bitacoraAcomodada[i][3] << ":" << bitacoraAcomodada[i][4] << " " << bitacoraAcomodada[i][5] << " " << bitacoraAcomodada[i][6] <<endl;
-          
+          //ingresa las lineas en el archivo
         }
-        file.close();
+        file.close(); //cierra el archivo y se guardan los cambios
 }
 
+//se encarga de instertar la ip de bitacora acomodada en bitacora diaria en una fecha especifica
 void insertarIp(vector<string> valor, vector< vector< vector <string> > > &bitacoraDiaria, string fecha){
     bool anadido = false;
     for( int i = 0; i < bitacoraDiaria[stoi(fecha)].size() ; i ++ ){
@@ -222,6 +236,7 @@ void insertarIp(vector<string> valor, vector< vector< vector <string> > > &bitac
     }
 }
 
+//Convierte nuestra bitacora acomodada en una bitacora por dias
 vector< vector< vector <string> > >  porDia(vector< vector<string> > bitacoraAcomodada){
     vector< vector< vector <string> > > bitacoraDiaria(1231);
     vector<string> valor;
