@@ -5,14 +5,14 @@ template <class T> class Node {
         Node<T>* left; // Pointer to the left node element
         Node<T>* right; // Pointer to the right node element
         
-        Node(T new_data, int key, Node<T>* left, Node<T>* right){
+        Node(T new_data, int key, Node<T>* left, Node<T>* right){ //Complejidad: O(1)
             this->data = new_data;
             this->key = key;
             this->left = left;
             this->right = right;
         }
 
-        Node(T new_data, int key){
+        Node(T new_data, int key){ //Complejidad: O(1)
             this->data = new_data;
             this->key = key;
             this->left = NULL;
@@ -20,11 +20,11 @@ template <class T> class Node {
         }
 };
 
-template <class T> class BinarySearchTree{
+template <class T> class BinarySearchTree{ 
     public:
         Node<T> *root;
         
-        BinarySearchTree(){
+        BinarySearchTree(){ //Complejidad: O(1)
             this->root = NULL;
         }
 
@@ -32,7 +32,7 @@ template <class T> class BinarySearchTree{
 
         }
 
-        void inorder(Node<T>* current_node){
+        void inorder(Node<T>* current_node){ //Complejidad: O(log(n))
             if(current_node) {
                 inorder(current_node->left);
                 cout << current_node->key << " ";
@@ -44,7 +44,7 @@ template <class T> class BinarySearchTree{
             }
         }
 
-        void insert(Node<T> * current_node, Node<T> *node_insert){
+        void insert(Node<T> * current_node, Node<T> *node_insert){ //Complejidad: O(log(n))
             // Go to the next node according to the rules;
             Node<T> * next_node = current_node->left;
             bool is_left = true;            
@@ -67,7 +67,7 @@ template <class T> class BinarySearchTree{
             }
         }
 
-        void insert(T data, int key){
+        void insert(T data, int key){ //Complejidad: O(log(n))
             Node<T> *node_insert = new Node<T>(data, key);
             if (this->root){
                 this->insert(this->root, node_insert);
@@ -78,7 +78,7 @@ template <class T> class BinarySearchTree{
             }
             
         }
-        Node<T>* search(Node<T>* current_node, int key_searched){
+        Node<T>* search(Node<T>* current_node, int key_searched){ //Complejidad: O(log(n))
             if(!current_node || key_searched == current_node->key){
                 return current_node;
             }
@@ -89,25 +89,25 @@ template <class T> class BinarySearchTree{
             return search(current_node->right, key_searched);
         }
 
-        Node<T>* search(int key_searched){
+        Node<T>* search(int key_searched){ //Complejidad: O(log(n))
             return this->search(this->root, key_searched);
         }
 
-        Node<T>* minimum_element(Node<T>* current_node){
+        Node<T>* minimum_element(Node<T>* current_node){ //Complejidad: O(log(n))
             if(!current_node->left){
                 return current_node;
             }
             return minimum_element(current_node->left);
         }
 
-        Node<T>* maximum_element(Node<T>* current_node){
+        Node<T>* maximum_element(Node<T>* current_node){ //Complejidad: O(log(n))
             if(!current_node->right){
                 return current_node;
             }
             return maximum_element(current_node->right);
         }
 
-        Node<T>* delete_node(Node<T>* current_node, int key_delete){
+        Node<T>* delete_node(Node<T>* current_node, int key_delete){ //Complejidad: O(log(n))
             if(!current_node) return NULL;
             // First search for the element to delete
             else if(key_delete < current_node->key){
@@ -160,7 +160,7 @@ template <class T> class BinarySearchTree{
             return current_node;       
         }
 
-        Node<T>* delete_node(int key_delete){
+        Node<T>* delete_node(int key_delete){ //Complejidad: O(log(n))
             return this->delete_node(this->root, key_delete);
         }
 

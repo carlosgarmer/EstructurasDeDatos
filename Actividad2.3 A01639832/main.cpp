@@ -6,7 +6,7 @@
 using namespace std;
 
 // Retorna el numero del mes segun el nombre
-string mesAnum(string mes){
+string mesAnum(string mes){ //Complejidad: O(1)
     if (mes == "Jan"){
         return "01";
     } else if (mes == "Feb"){
@@ -36,14 +36,14 @@ string mesAnum(string mes){
 }
 
 //Imprime los elementos de la bitacora acomodada
-void imprimir(vector< vector<string> > bitacoraAcomodada ) {
-    for( int i = 0 ; i < bitacoraAcomodada.size() -1 ; i++){
+void imprimir(vector< vector<string> > bitacoraAcomodada ) { //Complejidad: O(n)
+    for( int i = 0 ; i < bitacoraAcomodada.size() -1 ; i++){ 
         cout << bitacoraAcomodada[i][0] << " " << bitacoraAcomodada[i][1] << " " << bitacoraAcomodada[i][2] << ":" << bitacoraAcomodada[i][3] << ":" << bitacoraAcomodada[i][4] << " " << bitacoraAcomodada[i][5] << " " << bitacoraAcomodada[i][6] <<endl;
     }
 }
 
 //Imprime los elementos de la bitacora diaria
-void imprimir(vector< vector< vector <string> > > bitacoraDiaria){
+void imprimir(vector< vector< vector <string> > > bitacoraDiaria){ //Complejidad: O(n^2)
     for(int i = 0; i < bitacoraDiaria.size(); i++){
         if (bitacoraDiaria[i].size() > 1){
             cout << i << endl;
@@ -56,7 +56,7 @@ void imprimir(vector< vector< vector <string> > > bitacoraDiaria){
 }
 
 //separa cada elemento de la bitacora para comodarlos en categorias
-void separar(vector<string> &bitacora,vector< vector<string> > &bitacoraAcomodada ) {
+void separar(vector<string> &bitacora,vector< vector<string> > &bitacoraAcomodada ) { //Complejidad: O(n)
   string space_delimiter = " ";
   vector<string> valores;
   size_t pos = 0;
@@ -91,7 +91,7 @@ void separar(vector<string> &bitacora,vector< vector<string> > &bitacoraAcomodad
 }
 
 // Lee el archivo y lo guarda en un vector
-void leerArchivo(string nombreArchivo,vector<string> &bitacora){
+void leerArchivo(string nombreArchivo,vector<string> &bitacora){ //Complejidad: O(n)
   ifstream archivo(nombreArchivo.c_str());
   string linea;
   // Obtener línea de archivo, y almacenar contenido en "linea"
@@ -101,7 +101,7 @@ void leerArchivo(string nombreArchivo,vector<string> &bitacora){
 }
 
 //aplica el metodo de ordenamiento bubblesort
-void bubbleSort(vector< vector<string> > &bitacoraAcomodada){
+void bubbleSort(vector< vector<string> > &bitacoraAcomodada){ //Complejidad: O(n^2)
   for(int i = 0; i < bitacoraAcomodada.size() - 1; i++ ){
     for (int j = 0; j < bitacoraAcomodada.size() -i -1;j++){
           if(stoi(bitacoraAcomodada[j][7])  > stoi(bitacoraAcomodada[j+1][7])){
@@ -112,7 +112,7 @@ void bubbleSort(vector< vector<string> > &bitacoraAcomodada){
 }
 
 //ordena la bitacora diaria aplicando el bubblesort
-void sort(vector< vector< vector <string> > > &bitacoraDiaria, string fecha){
+void sort(vector< vector< vector <string> > > &bitacoraDiaria, string fecha){ //Complejidad: O(n^2)
   for(int i = 0; i < bitacoraDiaria[stoi(fecha)].size() - 1; i++ ){
     for (int j = 0; j < bitacoraDiaria[stoi(fecha)].size() -i -1;j++){
           if(stoi(bitacoraDiaria[stoi(fecha)][j][1])  < stoi(bitacoraDiaria[stoi(fecha)][j+1][1])){
@@ -123,7 +123,7 @@ void sort(vector< vector< vector <string> > > &bitacoraDiaria, string fecha){
 }
 
 //Metodo que se encargara de devolvernos los valores de la bitacora acomodada segun un rango de fechas
-void filtro(vector< vector<string> > &bitacoraAcomodada){
+void filtro(vector< vector<string> > &bitacoraAcomodada){ //Complejidad: O(n)
 
   string dia, mes, hora, minuto, segundo;
   string diaF, mesF, horaF, minutoF, segundoF;
@@ -171,7 +171,7 @@ void filtro(vector< vector<string> > &bitacoraAcomodada){
 
 
 //Metodo que se encargara de devolvernos los valores de la bitacora diaria segun un rango de fechas
-void filtro(vector< vector< vector <string> > > &bitacoraDiaria){
+void filtro(vector< vector< vector <string> > > &bitacoraDiaria){ //Complejidad: O(n^2)
 
   string dia, mes;
   string diaF, mesF;
@@ -210,7 +210,7 @@ void filtro(vector< vector< vector <string> > > &bitacoraDiaria){
 }
 
 //Guardara los valores de bitacora acomodada en un archivo
-void archivo(vector< vector<string> > &bitacoraAcomodada){
+void archivo(vector< vector<string> > &bitacoraAcomodada){ //Complejidad: O(n)
         ofstream file;
         file.open("bitacoraOrdenada.txt"); //abre el archivo
         
@@ -222,7 +222,7 @@ void archivo(vector< vector<string> > &bitacoraAcomodada){
 }
 
 //se encarga de instertar la ip de bitacora acomodada en bitacora diaria en una fecha especifica
-void insertarIp(vector<string> valor, vector< vector< vector <string> > > &bitacoraDiaria, string fecha){
+void insertarIp(vector<string> valor, vector< vector< vector <string> > > &bitacoraDiaria, string fecha){ //Complejidad: O(n)
     bool anadido = false;
     for( int i = 0; i < bitacoraDiaria[stoi(fecha)].size() ; i ++ ){
         if (bitacoraDiaria[stoi(fecha)][i][0] == valor[0]){
@@ -237,7 +237,7 @@ void insertarIp(vector<string> valor, vector< vector< vector <string> > > &bitac
 }
 
 //Convierte nuestra bitacora acomodada en una bitacora por dias
-vector< vector< vector <string> > >  porDia(vector< vector<string> > bitacoraAcomodada){
+vector< vector< vector <string> > >  porDia(vector< vector<string> > bitacoraAcomodada){ //Complejidad: O(n)
     vector< vector< vector <string> > > bitacoraDiaria(1231);
     vector<string> valor;
     for( int i = 0; i < bitacoraAcomodada.size(); i++){
